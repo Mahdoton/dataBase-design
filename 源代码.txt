@@ -1,0 +1,315 @@
+-------------------------表的定义-----------------
+项目表
+CREATE TABLE Project(
+XID Char(20),
+XName Char(20) PRIMARY KEY(XID,XName),
+XDirection Char(20)  NOT NULL,
+XBugget Money,
+XStart DateTime,
+XEnd DateTime,
+TID Char(20)  NOT NULL,
+TName Char(20)  NOT NULL,
+FOREIGN KEY(TID,TName) REFERENCES Project_team(TID,TName)
+);
+ 
+项目团队表
+CREATE TABLE Project_team(
+TID CHAR(20), 
+TName CHAR(20) PRIMARY KEY(TID,TName), 
+TLeader CHAR(20)NOT NULL,
+TStart DATETime NOT NULL, 
+TEnd DATETime, 
+TSnumber INT,
+TEnumber INT, 
+TSname CHAR(20),
+TEname CHAR(20), 
+TDept CHAR(20) NOT NULL
+);
+ 
+评审团表
+CREATE TABLE Jury(
+PID CHAR(20), 
+PName CHAR(20) PRIMARY KEY(PID,PName), 
+PLeader CHAR(20)NOT NULL,
+PSplan_number INT NOT NULL, 
+PEplan_number INT NOT NULL, 
+PS_success INT,
+PE_success INT, 
+);   
+ 
+
+立项申请表
+CREATE TABLE Project_application(
+S_AID CHAR(20) PRIMARY KEY, 
+XID CHAR(20) NOT NULL,
+XName CHAR(20) NOT NULL, 
+S_ATime DATETime NOT NULL,  
+FOREIGN KEY(XID,XName) REFERENCES Project(XID,XName),
+); 
+ 
+结项申请表
+CREATE TABLE Closing_application(
+E_AID CHAR(20) PRIMARY KEY, 
+XID CHAR(20) NOT NULL,
+XName CHAR(20) NOT NULL, 
+E_ATime DATETime NOT NULL,  
+FOREIGN KEY(XID,XName) REFERENCES Project(XID,XName)
+);
+ 
+  
+立项评审表
+CREATE TABLE Project_evaluation(
+S_IID CHAR(20)  PRIMARY KEY,
+XID CHAR(20) NOT NULL,
+XNAME CHAR(20) NOT NULL,
+PID CHAR(20) NOT NULL,
+PNAME CHAR(20) NOT NULL,
+S_ITIME DATETIME NOT NULL,
+S_IVALUE CHAR(20) NOT NULL,
+FOREIGN KEY(XID,XName) REFERENCES Project(XID,XName),
+FOREIGN KEY(PID,PName) REFERENCES Jury(PID,PName)
+);
+
+结项评审表
+CREATE TABLE Final_review(
+E_IID CHAR(20)  PRIMARY KEY,
+XID CHAR(20) NOT NULL,
+XNAME CHAR(20) NOT NULL,
+PID CHAR(20) NOT NULL,
+PNAME CHAR(20) NOT NULL,
+E_ITIME DATETIME NOT NULL,
+E_IVALUE CHAR(20) NOT NULL,
+FOREIGN KEY(XID,XName) REFERENCES Project(XID,XName),
+FOREIGN KEY(PID,PName) REFERENCES Jury(PID,PName)
+);
+
+
+立项通知表
+CREATE TABLE Project_approval_notice(
+S_OID CHAR(20) PRIMARY KEY,
+XID CHAR(20) NOT NULL,
+XName CHAR(20) NOT NULL,
+XStart DATETIME NOT NULL,
+FOREIGN KEY(XID,XName) REFERENCES Project(XID,XName)
+);
+
+结项通知表
+CREATE  TABLE Closing_notice(
+E_OID CHAR(20) PRIMARY KEY,
+XID CHAR(20) NOT NULL,
+XName CHAR(20) NOT NULL,
+XEnd DATETIME NOT NULL,
+FOREIGN KEY(XID,XName) REFERENCES Project(XID,XName)
+);
+
+
+
+-------------------数据的插入-------------------------------------------------------------------
+项目团队表
+INSERT INTO Project_team  VALUES('TI01','ASJ','pig1','2020-09-10',NULL,2,2,NULL,NULL,'TP01'); 
+INSERT INTO Project_team  VALUES('TI02','KSA','pig2','2020-09-02',NULL,2,2,NULL,NULL,'TP02'); 
+INSERT INTO Project_team  VALUES('TI03','ALS','pig3','2020-10-20',NULL,1,1,NULL,NULL,'TP03'); 
+INSERT INTO Project_team  VALUES('TI04','ASD','pig4','2020-05-02',NULL,0,0,NULL,NULL,'TP04'); 
+INSERT INTO Project_team  VALUES('TI05','SDF','pig5','2020-08-25',NULL,0,0,NULL,NULL,'TP05'); 
+INSERT INTO Project_team  VALUES('TI06','WLP','pig6','2020-09-11',NULL,1,1,NULL,NULL,'TP06'); 
+INSERT INTO Project_team  VALUES('TI07','SDS','pig7','2020-07-07',NULL,1,1,NULL,NULL,'TP07'); 
+INSERT INTO Project_team  VALUES('TI08','WME','pig8','2020-04-02',NULL,1,1,NULL,NULL,'TP08'); 
+INSERT INTO Project_team  VALUES('TI09','SDA','pig9','2020-01-20',NULL,1,1,NULL,NULL,'TP09'); 
+INSERT INTO Project_team  VALUES('TI10','LKW','pig10','2020-06-20',NULL,1,1,NULL,NULL,'TP10');
+
+项目表
+INSERT INTO Project  VALUES('xid01','手工酸奶吧','扩建项目',NULL,'2020-07-01','2020-09-01','TI01','ASJ'); 
+INSERT INTO Project  VALUES('xid02','鲜酿啤酒屋','扩建项目',NULL,'2020-09-15','2020-10-20','TI02','KSA'); 
+INSERT INTO Project  VALUES('xid03','花卉培植','迁建项目',NULL,NULL,NULL,'TI03','ALS'); 
+INSERT INTO Project  VALUES('xid04','商业情报处','新建项目',NULL,NULL,NULL,'TI04','ASD'); 
+INSERT INTO Project  VALUES('xid05','自拍照相吧','新建项目',NULL,NULL,NULL,'TI05','SDF'); 
+INSERT INTO Project  VALUES('xid06','格子铺','新建项目',NULL,'2020-08-15','2020-09-15','TI06','WLP'); 
+INSERT INTO Project  VALUES('xid07','网上教育','扩建项目',NULL,'2020-06-15','2020-08-15','TI07','SDS'); 
+INSERT INTO Project  VALUES('xid08','网络信息中介','新建项目',NULL,'2020-09-01','2020-11-01','TI08','WME'); 
+INSERT INTO Project  VALUES('xid09','技术经济人','扩建项目',NULL,'2020-08-11','2020-10-11','TI09','SDA'); 
+INSERT INTO Project  VALUES('xid10','会展设计','扩建项目',NULL,'2020-10-02','2020-11-16','TI10','LKW'); 
+INSERT INTO Project  VALUES('xid011','农艺之乡','扩建项目',NULL,'2020-04-22','2020-07-22','TI01','ASJ'); 
+INSERT INTO Project  VALUES('xid012','扫地机器人','新建项目',NULL,'2020-05-15','2020-07-15','TI02','KSA'); 
+INSERT INTO Project  VALUES('xid013','消防培训','扩建项目',NULL,'2020-06-20','2020-09-20','TI03','ALS'); 
+
+评审团表
+INSERT INTO Jury  VALUES('PI01','SOS','boar1','5','4',2,2); 
+INSERT INTO Jury  VALUES('PI02','TPC','boar2','7','6',2,2); 
+INSERT INTO Jury  VALUES('PI03','GUYS','boar3','9','8',0,0); 
+INSERT INTO Jury  VALUES('PI04','MAC','boar4','10','9',0,0); 
+INSERT INTO Jury  VALUES('PI05','JAD','boar5','6','5',1,1); 
+INSERT INTO Jury  VALUES('PI06','SAJ','boar6','7','6',1,1); 
+INSERT INTO Jury  VALUES('PI07','ASK','boar7','8','7',1,1); 
+INSERT INTO Jury  VALUES('PI08','AS','boar8','9','8',1,1); 
+INSERT INTO Jury  VALUES('PI09','DAS','boar9','2','1',1,1); 
+INSERT INTO Jury  VALUES('PI10','AKS','boar10','4','3',1,1); 
+
+立项申请
+INSERT INTO Project_application  VALUES('SA01','xid01','手工酸奶吧','2020-05-02'); 
+INSERT INTO Project_application  VALUES('SA02','xid02','鲜酿啤酒屋','2020-08-25'); 
+INSERT INTO Project_application  VALUES('SA03','xid03','花卉培植','2020-09-10'); 
+INSERT INTO Project_application  VALUES('SA04','xid04','商业情报处','2020-09-02'); 
+INSERT INTO Project_application  VALUES('SA05','xid05','自拍照相吧','2020-10-20'); 
+INSERT INTO Project_application  VALUES('SA06','xid06','格子铺','2020-07-07'); 
+INSERT INTO Project_application  VALUES('SA07','xid07','网上教育','2020-04-02'); 
+INSERT INTO Project_application  VALUES('SA08','xid08','网络信息中介','2020-07-02'); 
+INSERT INTO Project_application  VALUES('SA09','xid09','技术经济人','2020-06-02'); 
+INSERT INTO Project_application  VALUES('SA10','xid10','会展设计','2020-08-02'); 
+INSERT INTO Project_application  VALUES('SA11','xid11','农艺之乡','2020-02-20'); 
+INSERT INTO Project_application  VALUES('SA12','xid12','扫地机器人','2020-03-21'); 
+INSERT INTO Project_application  VALUES('SA13','xid13','消防培训','2020-04-10'); 
+
+立项评审
+INSERT INTO Project_evaluation  VALUES('SI01','xid01','手工酸奶吧','PI01','SOS','2020-06-25','通过'); 
+INSERT INTO Project_evaluation  VALUES('SI02','xid02','鲜酿啤酒屋','PI02','TPC','2020-09-10','通过'); 
+INSERT INTO Project_evaluation  VALUES('SI03','xid03','花卉培植','PI03','GUYS','2020-10-02','不通过'); 
+INSERT INTO Project_evaluation  VALUES('SI04','xid04','商业情报处','PI04','MAC','2020-10-20','不通过'); 
+INSERT INTO Project_evaluation  VALUES('SI05','xid05','自拍照相吧','PI05','JAD','2020-11-01','不通过'); 
+INSERT INTO Project_evaluation  VALUES('SI06','xid06','格子铺','PI06','SAJ','2020-08-02','通过'); 
+INSERT INTO Project_evaluation  VALUES('SI07','xid07','网上教育','PI07','ASK','2020-05-02','通过'); 
+INSERT INTO Project_evaluation  VALUES('SI08','xid08','网络信息中介','PI08','AS','2020-08-02','通过'); 
+INSERT INTO Project_evaluation  VALUES('SI09','xid09','技术经济人','PI09','DAS','2020-07-02','通过');
+INSERT INTO Project_evaluation  VALUES('SI10','xid10','会展设计','PI10','AKS','2020-09-05','通过'); 
+INSERT INTO Project_evaluation  VALUES('SI11','xid11','农艺之乡','PI01','SOS','2020-03-21','通过'); 
+INSERT INTO Project_evaluation  VALUES('SI12','xid12','扫地机器人','PI02','TPC','2020-04-11','通过'); 
+INSERT INTO Project_evaluation  VALUES('SI13','xid13','消防培训','PI03','GUYS','2020-05-01','通过'); 
+
+立项通知
+INSERT INTO Project_approval_notice  VALUES('SO01','xid01','手工酸奶吧','2020-07-01'); 
+INSERT INTO Project_approval_notice  VALUES('SO02','xid02','鲜酿啤酒屋','2020-09-15');
+INSERT INTO Project_approval_notice  VALUES('SO03','xid06','格子铺','2020-08-15');
+INSERT INTO Project_approval_notice  VALUES('SO01','xid07','网上教育','2020-06-15');
+INSERT INTO Project_approval_notice  VALUES('SO05','xid08','网络信息中介','2020-09-01');
+INSERT INTO Project_approval_notice  VALUES('SO06','xid09','技术经济人','2020-08-11');
+INSERT INTO Project_approval_notice  VALUES('SO07','xid10','会展设计','2020-10-02');
+INSERT INTO Project_approval_notice  VALUES('SO08','xid11','农艺之乡','2020-04-22');
+INSERT INTO Project_approval_notice  VALUES('SO09','xid12','扫地机器人','2020-05-15');
+INSERT INTO Project_approval_notice  VALUES('SO10','xid13','消防培训','2020-06-20');
+
+结项申请
+INSERT INTO Closing_application  VALUES('EA01','xid01','手工酸奶吧','2020-08-07'); 
+INSERT INTO Closing_application  VALUES('EA02','xid02','鲜酿啤酒屋','2020-10-02'); 
+INSERT INTO Closing_application  VALUES('EA03','xid06','格子铺','2020-08-29'); 
+INSERT INTO Closing_application  VALUES('EA04','xid07','网上教育','2020-07-25'); 
+INSERT INTO Closing_application  VALUES('EA05','xid08','网络信息中介','2020-10-10'); 
+INSERT INTO Closing_application  VALUES('EA06','xid09','技术经济人','2020-09-02'); 
+INSERT INTO Closing_application  VALUES('EA07','xid10','会展设计','2020-10-27'); 
+INSERT INTO Closing_application  VALUES('EA08','xid11','农艺之乡','2020-05-08'); 
+INSERT INTO Closing_application  VALUES('EA09','xid12','扫地机器人','2020-06-01'); 
+INSERT INTO Closing_application  VALUES('EA10','xid13','消防培训','2020-07-14'); 
+
+结项评审
+INSERT INTO Final_review  VALUES('EI01','xid01','手工酸奶吧','PI01','SOS','2020-08-25','通过'); 
+INSERT INTO Final_review  VALUES('EI02','xid02','鲜酿啤酒屋','PI02','TPC','2020-10-10','通过'); 
+INSERT INTO Final_review  VALUES('EI03','xid06','格子铺','PI06','SAJ','2020-09-02','通过'); 
+INSERT INTO Final_review  VALUES('EI04','xid07','网上教育','PI07','ASK','2020-08-02','通过'); 
+INSERT INTO Final_review  VALUES('EI05','xid08','网络信息中介','PI08','AS','2020-10-20','通过'); 
+INSERT INTO Final_review  VALUES('EI06','xid09','技术经济人','PI09','DAS','2020-09-15','通过');
+INSERT INTO Final_review  VALUES('EI07','xid10','会展设计','PI10','AKS','2020-11-05','通过'); 
+INSERT INTO Final_review  VALUES('EI08','xid11','农艺之乡','PI01','SOS','2020-06-11','通过'); 
+INSERT INTO Final_review  VALUES('EI09','xid12','扫地机器人','PI02','TPC','2020-06-13','通过'); 
+INSERT INTO Final_review  VALUES('EI10','xid13','消防培训','PI03','GUYS','2020-08-01','通过'); 
+
+结项通知
+INSERT INTO Closing_notice  VALUES('EO01','xid01','手工酸奶吧','2020-09-01'); 
+INSERT INTO Closing_notice  VALUES('EO02','xid02','鲜酿啤酒屋','2020-10-20');
+INSERT INTO Closing_notice  VALUES('EO03','xid06','格子铺','2020-09-15');
+INSERT INTO Closing_notice  VALUES('EO04','xid07','网上教育','2020-08-15');
+INSERT INTO Closing_notice  VALUES('EO05','xid08','网络信息中介','2020-11-01');
+INSERT INTO Closing_notice  VALUES('EO06','xid09','技术经济人','2020-10-11');
+INSERT INTO Closing_notice  VALUES('EO07','xid10','会展设计','2020-11-16');
+INSERT INTO Closing_notice  VALUES('EO08','xid11','农艺之乡','2020-07-22');
+INSERT INTO Closing_notice  VALUES('EO09','xid12','扫地机器人','2020-07-15');
+INSERT INTO Closing_notice  VALUES('EO10','xid13','消防培训','2020-09-20');
+
+---------------------触发器的设置---------------------------
+立项评审触发器
+CREATE TRIGGER PE ON Project_evaluation
+AFTER INSERT 
+AS
+	DECLARE @PID CHAR(20),@S_IID CHAR(20);
+	SET @PID=(SELECT PID FROM INSERTED);
+	SET @S_IID=(SELECT S_IID FROM INSERTED);
+	PRINT @PID;
+	PRINT @S_IID;
+	IF (SELECT S_IValue FROM INSERTED WHERE S_IID=@S_IID)='通过'
+		BEGIN
+			IF (SELECT PS_success+1 FROM Jury WHERE PID=@PID)<=(SELECT PSplan_number FROM Jury WHERE PID=@PID)
+				BEGIN
+					UPDATE Jury SET PS_success=PS_success+1 WHERE PID=@PID;
+					PRINT '评审团立项数小于等于评审团立项计划数，更新成功!';
+				END
+			ELSE 
+				BEGIN
+					DELETE FROM Project_evaluation WHERE S_IID=@S_IID;
+					PRINT '评审团立项数大于评审团立项计划数，更新失败！';
+				END
+		END
+
+
+立项通知触发器
+CREATE TRIGGER PAN ON Project_approval_notice
+AFTER INSERT 
+AS
+	DECLARE @XID CHAR(20),@XStart DATETIME,@TID CHAR(20)
+	SET @XID=(SELECT XID FROM INSERTED)
+	SET @XStart=(SELECT XStart FROM INSERTED)
+	SET @TID=(SELECT TID FROM Project WHERE XID=@XID)
+	UPDATE Project SET XStart=@XStart WHERE XID=@XID 
+	UPDATE Project_team SET TSnumber=TSnumber+1 WHERE TID=@TID
+	PRINT '团队立项数更新成功！'
+	PRINT '项目立项时间更新成功！'
+
+
+结项评审触发器
+CREATE TRIGGER FR ON Final_review
+AFTER INSERT 
+AS
+	DECLARE @PID CHAR(20),@E_IID CHAR(20);
+	SET @PID=(SELECT PID FROM INSERTED);
+	SET @E_IID=(SELECT E_IID FROM INSERTED);
+	PRINT @PID;
+	PRINT @E_IID;
+	IF (SELECT E_IValue FROM INSERTED WHERE E_IID=@E_IID)='通过'
+		BEGIN
+			IF (SELECT PE_success+1 FROM Jury WHERE PID=@PID)<=(SELECT PEplan_number FROM Jury WHERE PID=@PID)
+				BEGIN
+					UPDATE Jury SET PE_success=PE_success+1 WHERE PID=@PID;
+					PRINT '评审团立项数小于等于评审团立项计划数，更新成功!';
+				END
+			ELSE 
+				BEGIN
+					DELETE FROM Final_review WHERE E_IID=@E_IID;
+					PRINT '评审团立项数大于评审团立项计划数，更新失败！';
+				END
+		END
+
+
+结项通知触发器
+CREATE TRIGGER CN ON Closing_notice
+AFTER INSERT 
+AS
+	DECLARE @XID CHAR(20),@XEnd DATETIME,@TID CHAR(20)
+	SET @XID=(SELECT XID FROM INSERTED)
+	SET @XEnd=(SELECT XEnd FROM INSERTED)
+	SET @TID=(SELECT TID FROM Project WHERE XID=@XID)
+	UPDATE Project SET XEnd=@XEnd WHERE XID=@XID 
+	UPDATE Project_team SET TEnumber=TEnumber+1 WHERE TID=@TID
+	PRINT '团队结项数更新成功！'
+	PRINT '项目结项时间更新成功！'
+
+
+------------------------------测试数据----------------------
+立项测试数据
+INSERT INTO Project_application  VALUES('SA14','xid03','花卉培植','2020-10-10');
+INSERT INTO Project_evaluation  VALUES('SI14','xid03','花卉培植','PI03','GUYS','2020-11-02','通过'); 
+INSERT INTO Project_approval_notice  VALUES('SO11','xid03','花卉培植','2020-11-15');
+
+结项测试数据
+INSERT INTO Closing_application  VALUES('EA11','xid03','花卉培植','2020-11-27'); 
+INSERT INTO Final_review  VALUES('EI11','xid03','花卉培植','PI03','GUYS','2020-12-05','通过'); 
+INSERT INTO Closing_notice  VALUES('EO11','xid03','花卉培植','2020-12-25'); 
+
+
+
+
